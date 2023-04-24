@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.smec</groupId>
+        <artifactId>coupon-template-serv</artifactId>
+        <version>1.2</version>
+    </parent>
+    <artifactId>coupon-template-impl</artifactId>
+    <name>Archetype - coupon-template-impl</name>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>coupon-template-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>coupon-template-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Actuator 对微服务端点进行管理和配置监控 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.4.1.Final</version>
+        </dependency>
+
+    </dependencies>
+
+    <!-- 如果要以java -jar命令执行这个应用，记得把这个注解打开
+         如果这个项目是作为其它项目的依赖，那么就不要添加下面这个注解。
+
+         在Spring Boot阶段，由于我们是通过customer服务来跑单体应用，所以不用加
+         在Spring Cloud阶段，以java -jar 运行项目必须在各个impl项目的pom中加上这个注解
+    -->
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>repackage</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>3.5.1</version> &lt;!&ndash; or newer version &ndash;&gt;-->
+<!--                <configuration>-->
+<!--                    <source>1.8</source> &lt;!&ndash; depending on your project &ndash;&gt;-->
+<!--                    <target>1.8</target> &lt;!&ndash; depending on your project &ndash;&gt;-->
+<!--                    <annotationProcessorPaths>-->
+<!--                        <path>-->
+<!--                            <groupId>org.mapstruct</groupId>-->
+<!--                            <artifactId>mapstruct-processor</artifactId>-->
+<!--                            <version>1.4.1.Final</version>-->
+<!--                        </path>-->
+<!--                        &lt;!&ndash; other annotation processors &ndash;&gt;-->
+<!--                    </annotationProcessorPaths>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
+
+</project>

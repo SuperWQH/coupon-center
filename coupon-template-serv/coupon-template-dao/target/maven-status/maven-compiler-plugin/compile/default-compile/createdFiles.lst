@@ -1,0 +1,10 @@
+com\smec\coupon\template\dao\converters\CouponTypeDtoConverter.class
+com\smec\coupon\template\dao\dtos\CouponTypeDto.class
+com\smec\coupon\template\dao\CouponTemplateDao.class
+com\smec\coupon\template\dao\entities\CouponTemplate$CouponTemplateBuilder.class
+com\smec\coupon\template\dao\converters\TemplateRuleDtoConverter.class
+com\smec\coupon\template\dao\dtos\DiscountDto$DiscountDtoBuilder.class
+com\smec\coupon\template\dao\dtos\TemplateRuleDto.class
+com\smec\coupon\template\dao\entities\CouponTemplate.class
+com\smec\coupon\template\dao\dtos\DiscountDto.class
+com\smec\coupon\template\dao\dtos\TemplateRuleDto$TemplateRuleDtoBuilder.class

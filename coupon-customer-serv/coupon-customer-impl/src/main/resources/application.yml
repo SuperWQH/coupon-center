@@ -1,0 +1,23 @@
+server:
+  port: 7002
+spring:
+  application:
+    name: coupon-customer
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    ## 如果后端项目服务器和数据库服务器不在同一台主机，则需要修改localhost为数据库服务器ip地址
+    url: jdbc:mysql://localhost:3306/wei?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      # 在生产环境全部为none，防止ddl结构被自动执行
+      ddl-auto: update
+    properties:
+      hibernate.format_sql: true
+      hibernate.show_sql: true
+    open-in-view: false
+logging:
+  level:
+    com.broadview.coupon: debug

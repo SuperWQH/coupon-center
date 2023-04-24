@@ -1,0 +1,4 @@
+com\smec\coupon\calculation\api\beans\Product.class
+com\smec\coupon\calculation\api\beans\ShoppingCart.class
+com\smec\coupon\calculation\api\beans\SimulationOrder.class
+com\smec\coupon\calculation\api\beans\SimulationResponse.class

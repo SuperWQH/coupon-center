@@ -1,0 +1,12 @@
+com\smec\coupon\template\api\beans\rules\TemplateRule.class
+com\smec\coupon\template\api\CouponInfo.class
+com\smec\coupon\template\api\beans\TemplateSearchParams.class
+com\smec\coupon\template\api\beans\PagedCouponTemplateInfo$PagedCouponTemplateInfoBuilder.class
+com\smec\coupon\template\api\beans\CouponTemplateInfo.class
+com\smec\coupon\template\api\beans\CouponTemplateInfo$CouponTemplateInfoBuilder.class
+com\smec\coupon\template\api\enums\CouponType.class
+com\smec\coupon\template\api\beans\rules\TemplateRule$TemplateRuleBuilder.class
+com\smec\coupon\template\api\beans\rules\Discount.class
+com\smec\coupon\template\api\beans\TemplateSearchParams$TemplateSearchParamsBuilder.class
+com\smec\coupon\template\api\beans\PagedCouponTemplateInfo.class
+com\smec\coupon\template\api\beans\rules\Discount$DiscountBuilder.class
