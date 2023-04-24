@@ -10,4 +10,6 @@ import com.smec.coupon.customer.dao.entities.Coupon;
  */
 public interface CouponCustomerService {
     Coupon requestCoupon(RequestCoupon requestCoupon);
+
+    void deleteCoupon(Long userId, Long couponId);
 }

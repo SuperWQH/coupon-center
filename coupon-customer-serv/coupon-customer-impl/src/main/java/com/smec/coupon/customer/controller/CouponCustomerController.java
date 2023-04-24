@@ -5,10 +5,7 @@ import com.smec.coupon.customer.services.CouponCustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.smec.coupon.customer.api.beans.RequestCoupon;
 /**
  * @Author 魏启恒
@@ -27,5 +24,10 @@ public class CouponCustomerController {
     @ApiOperation(value = "requestCoupon", notes = "顾客申请优惠券")
     public Coupon requestCoupon(@RequestBody RequestCoupon requestCoupon) {
         return customerService.requestCoupon(requestCoupon);
+    }
+
+    @DeleteMapping("/delete/{uid}/{cid}")
+    public void deleteCoupon(@PathVariable("uid") Long userId, @PathVariable("cid") Long couponId) {
+        customerService.deleteCoupon(userId, couponId);
     }
 }

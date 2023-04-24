@@ -9,6 +9,7 @@ import com.smec.coupon.template.api.beans.CouponTemplateInfo;
 import com.smec.coupon.template.service.CouponTemplateService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -60,5 +61,19 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
                 .build();
         Coupon couponSave = couponDao.save(coupon);
         return couponSave;
+    }
+
+    @Override
+    public void deleteCoupon(Long userId, Long couponId) {
+        Coupon example = Coupon.builder().id(couponId)
+                .userId(userId)
+                .status(CouponStatus.AVAILABLE)
+                .build();
+        Coupon coupon = couponDao.findAll(Example.of(example)).stream().findFirst().orElse(null);
+        if (coupon == null) {
+            // todo 如果找不到优惠券，抛出异常
+        }
+        coupon.setStatus(CouponStatus.INACTIVE);
+        couponDao.save(coupon);
     }
 }
