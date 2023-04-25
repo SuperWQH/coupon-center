@@ -3,10 +3,7 @@ package com.smec.coupon.template.api;
 import com.smec.coupon.template.api.beans.CouponTemplateInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
 /**
  * @Author 魏启恒
@@ -17,6 +14,7 @@ import lombok.Value;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "CouponInfo", description = "优惠券信息")
+@Builder
 public class CouponInfo {
 
     @ApiModelProperty(value = "优惠券id")

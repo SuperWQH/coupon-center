@@ -1,5 +1,6 @@
 package com.smec.coupon.customer.controller;
 
+import com.smec.coupon.calculation.api.beans.ShoppingCart;
 import com.smec.coupon.customer.dao.entities.Coupon;
 import com.smec.coupon.customer.services.CouponCustomerService;
 import io.swagger.annotations.Api;
@@ -27,7 +28,14 @@ public class CouponCustomerController {
     }
 
     @DeleteMapping("/delete/{uid}/{cid}")
+    @ApiOperation(value = "deleteCoupon", notes = "根据用户id和消费券id来逻辑删除优惠券")
     public void deleteCoupon(@PathVariable("uid") Long userId, @PathVariable("cid") Long couponId) {
         customerService.deleteCoupon(userId, couponId);
+    }
+
+    @PostMapping("/checkout")
+    @ApiOperation(value = "checkout", notes = "下单、结算")
+    public ShoppingCart checkout(@RequestBody ShoppingCart cart) {
+        return customerService.checkoutCoupon(cart);
     }
 }

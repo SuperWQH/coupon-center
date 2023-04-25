@@ -1,5 +1,6 @@
 package com.smec.coupon.customer.services;
 
+import com.smec.coupon.calculation.api.beans.ShoppingCart;
 import com.smec.coupon.customer.api.beans.RequestCoupon;
 import com.smec.coupon.customer.dao.entities.Coupon;
 
@@ -12,4 +13,6 @@ public interface CouponCustomerService {
     Coupon requestCoupon(RequestCoupon requestCoupon);
 
     void deleteCoupon(Long userId, Long couponId);
+
+    ShoppingCart checkoutCoupon(ShoppingCart cart);
 }

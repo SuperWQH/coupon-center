@@ -1,16 +1,22 @@
 package com.smec.coupon.customer.services.impl;
 
+import com.google.common.collect.Lists;
+import com.smec.coupon.calculation.api.beans.ShoppingCart;
+import com.smec.coupon.calculation.services.CouponCalculationService;
 import com.smec.coupon.customer.api.beans.RequestCoupon;
 import com.smec.coupon.customer.api.enums.CouponStatus;
+import com.smec.coupon.customer.converters.CouponConverter;
 import com.smec.coupon.customer.dao.CouponDao;
 import com.smec.coupon.customer.dao.entities.Coupon;
 import com.smec.coupon.customer.services.CouponCustomerService;
+import com.smec.coupon.template.api.CouponInfo;
 import com.smec.coupon.template.api.beans.CouponTemplateInfo;
 import com.smec.coupon.template.service.CouponTemplateService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Calendar;
 
@@ -24,6 +30,9 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
 
     @Autowired
     private CouponTemplateService templateService;
+
+    @Autowired
+    private CouponCalculationService calculationService;
 
     @Autowired
     private CouponDao couponDao;
@@ -75,5 +84,36 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
         }
         coupon.setStatus(CouponStatus.INACTIVE);
         couponDao.save(coupon);
+    }
+
+    @Override
+    public ShoppingCart checkoutCoupon(ShoppingCart cart) {
+        if (CollectionUtils.isEmpty(cart.getProducts())) {
+            // todo 如果购物车没有商品，那么就抛出异常
+        }
+        Coupon coupon = null;
+        // 进入if语句块，意味着有优惠券，需要使用
+        if (null != cart.getCouponId()) {
+            Coupon example = Coupon.builder().id(cart.getCouponId())
+                    .userId(cart.getUserId())
+                    .status(CouponStatus.AVAILABLE)
+                    .build();
+            coupon = couponDao.findAll(Example.of(example)).stream().findFirst().orElse(null);
+            if (null == coupon) {
+                // todo 如果找不到优惠券，那么就抛出异常
+            }
+            CouponInfo couponInfo = CouponConverter.convert2CouponInfo(coupon);
+            couponInfo.setTemplateInfo(templateService.getTemplateInfoById(coupon.getTemplateId()));
+            cart.setCouponInfos(Lists.newArrayList(couponInfo));
+        }
+        ShoppingCart newCart = calculationService.calculateOrderNewPrice(cart);
+        if (null != coupon) { // 说明有优惠券
+            if (CollectionUtils.isEmpty(newCart.getCouponInfos())) { // 如果couponInfos为空，那么就说明不满足优惠条件
+                // todo 抛出异常，不满足优惠条件
+            }
+            coupon.setStatus(CouponStatus.USED);
+            couponDao.save(coupon);
+        }
+        return cart;
     }
 }
