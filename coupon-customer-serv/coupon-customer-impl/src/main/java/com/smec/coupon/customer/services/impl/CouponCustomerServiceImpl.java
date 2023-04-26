@@ -2,21 +2,22 @@ package com.smec.coupon.customer.services.impl;
 
 import com.google.common.collect.Lists;
 import com.smec.coupon.calculation.api.beans.ShoppingCart;
-import com.smec.coupon.calculation.services.CouponCalculationService;
 import com.smec.coupon.customer.api.beans.RequestCoupon;
 import com.smec.coupon.customer.api.enums.CouponStatus;
 import com.smec.coupon.customer.converters.CouponConverter;
 import com.smec.coupon.customer.dao.CouponDao;
 import com.smec.coupon.customer.dao.entities.Coupon;
+import com.smec.coupon.customer.feign.CalculationService;
+import com.smec.coupon.customer.feign.TemplateService;
 import com.smec.coupon.customer.services.CouponCustomerService;
 import com.smec.coupon.template.api.CouponInfo;
 import com.smec.coupon.template.api.beans.CouponTemplateInfo;
-import com.smec.coupon.template.service.CouponTemplateService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Calendar;
 
@@ -29,13 +30,25 @@ import java.util.Calendar;
 public class CouponCustomerServiceImpl implements CouponCustomerService {
 
     @Autowired
-    private CouponTemplateService templateService;
+    private WebClient.Builder webClientBuilder;
 
     @Autowired
-    private CouponCalculationService calculationService;
+    private TemplateService templateService;
+
+    @Autowired
+    private CalculationService calculationService;
 
     @Autowired
     private CouponDao couponDao;
+
+    private CouponTemplateInfo getTemplateInfoByWebFlux(Long templateId) {
+        return webClientBuilder.build()
+                .get()
+                .uri("http://coupon-template-serv/template/get/" + templateId)
+                .retrieve()
+                .bodyToMono(CouponTemplateInfo.class)
+                .block();
+    }
 
     /**
      * 顾客申请优惠券
@@ -45,8 +58,8 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
      */
     @Override
     public Coupon requestCoupon(RequestCoupon requestCoupon) {
+        // CouponTemplateInfo templateInfo = templateService.getTemplateInfoById(requestCoupon.getCouponTemplateId());
         CouponTemplateInfo templateInfo = templateService.getTemplateInfoById(requestCoupon.getCouponTemplateId());
-
         if (templateInfo == null) {
             // todo 如果模板不存在，则报错
         }
@@ -106,6 +119,15 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
             couponInfo.setTemplateInfo(templateService.getTemplateInfoById(coupon.getTemplateId()));
             cart.setCouponInfos(Lists.newArrayList(couponInfo));
         }
+        // ShoppingCart newCart = calculationService.calculateOrderNewPrice(cart);
+        /**
+        ShoppingCart newCart = webClientBuilder.build().post()
+                .uri("http://coupon-calculation-serv/calculation/new-price")
+                .bodyValue(cart)
+                .retrieve()
+                .bodyToMono(ShoppingCart.class)
+                .block();
+         */
         ShoppingCart newCart = calculationService.calculateOrderNewPrice(cart);
         if (null != coupon) { // 说明有优惠券
             if (CollectionUtils.isEmpty(newCart.getCouponInfos())) { // 如果couponInfos为空，那么就说明不满足优惠条件
@@ -114,6 +136,6 @@ public class CouponCustomerServiceImpl implements CouponCustomerService {
             coupon.setStatus(CouponStatus.USED);
             couponDao.save(coupon);
         }
-        return cart;
+        return newCart;
     }
 }

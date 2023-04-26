@@ -36,6 +36,7 @@ public class CouponCustomerController {
     @PostMapping("/checkout")
     @ApiOperation(value = "checkout", notes = "下单、结算")
     public ShoppingCart checkout(@RequestBody ShoppingCart cart) {
-        return customerService.checkoutCoupon(cart);
+        ShoppingCart newCart = customerService.checkoutCoupon(cart);
+        return newCart;
     }
 }

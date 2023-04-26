@@ -3,6 +3,7 @@ package com.smec.coupon.calculation;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.smec"})
 //用于扫描JPA实体类 @Entity，默认扫本包当下路径
 @EntityScan(basePackages = {"com.smec"})
+@EnableDiscoveryClient
 public class Application {
 
     public static void main(String[] args) {
