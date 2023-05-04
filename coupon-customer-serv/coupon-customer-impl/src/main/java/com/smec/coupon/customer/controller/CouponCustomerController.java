@@ -1,5 +1,6 @@
 package com.smec.coupon.customer.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.smec.coupon.calculation.api.beans.ShoppingCart;
 import com.smec.coupon.customer.dao.entities.Coupon;
 import com.smec.coupon.customer.services.CouponCustomerService;
@@ -31,6 +32,7 @@ public class CouponCustomerController {
 
     @PostMapping("/request/coupon")
     @ApiOperation(value = "requestCoupon", notes = "顾客申请优惠券")
+    @SentinelResource(value = "requestCoupon")
     public Coupon requestCoupon(@RequestBody RequestCoupon requestCoupon) {
         if (disableCoupon) {
             log.info("暂停领券");

@@ -4,6 +4,12 @@ spring:
   application:
     name: coupon-calculation
   cloud:
+    sentinel:
+      transport:
+        # sentinel api端口，默认8719
+        port: 8719
+        # dashboard地址
+        dashboard: localhost:8081
     nacos:
       discovery:
         # Nacos的服务注册地址，可以配置多个，逗号分隔

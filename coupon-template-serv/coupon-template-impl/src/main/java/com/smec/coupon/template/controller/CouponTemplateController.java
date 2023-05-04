@@ -1,5 +1,7 @@
 package com.smec.coupon.template.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.smec.coupon.template.api.beans.PagedCouponTemplateInfo;
 import com.smec.coupon.template.api.beans.TemplateSearchParams;
 import com.smec.coupon.template.service.CouponTemplateService;
@@ -41,9 +43,15 @@ public class CouponTemplateController {
 
     @GetMapping("/get/{id}")
     @ApiOperation(value = "getTemplateInfoById", notes = "根据消费券模板id获取消费券模板")
+    @SentinelResource(value = "getTemplateInfoById", blockHandler = "getTemplateBlock")
     public CouponTemplateInfo getTemplateInfoById(@PathVariable("id") Long id) {
         // log.info("进入根据模板id获取消费券模板的Controller");
         return couponTemplateService.getTemplateInfoById(id);
+    }
+
+    public CouponTemplateInfo getTemplateBlock(Long id, BlockException exception) {
+        log.info("接口被限流");
+        return new CouponTemplateInfo();
     }
 
     @GetMapping("/get/batch")

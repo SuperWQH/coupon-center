@@ -19,6 +19,10 @@ spring:
       hibernate.show_sql: true
     open-in-view: false
   cloud:
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8081
     nacos:
       discovery:
         # Nacos的服务注册地址，可以配置多个，逗号分隔

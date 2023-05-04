@@ -65,3 +65,9 @@
 #      coupon-template-serv:
 #        connectTimeout: 1000
 #        readTimeout: 2000
+spring:
+  cloud:
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8081
